@@ -1,5 +1,3 @@
-
-
 import { faImages } from "@fortawesome/free-regular-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,13 +18,12 @@ function AddFood() {
   const handleFileInputChange = async (e) => {
     try {
       const file = e.target.files[0];
-      const base64 = await convertToBase64(file)
-      console.log(base64)
+      const base64 = await convertToBase64(file);
+      console.log(base64);
       setFoodImage({ ...foodImage, FoodImage: base64 });
     } catch (error) {
-      console.log("fie input err : " + error)
+      console.log("fie input err : " + error);
     }
-
   };
 
   const handleSubmit = (e) => {
@@ -35,18 +32,17 @@ function AddFood() {
     // const config = { headers: { "Content-Type": "multipart/form-data" } };
     const newForm = new FormData();
 
-
     newForm.append("file", foodImage.FoodImage);
     newForm.append("name", name);
-    newForm.append("title", title)
+    newForm.append("title", title);
     newForm.append("category", category);
     newForm.append("description", description);
     newForm.append("quantity", quantity);
     newForm.append("price", price);
 
-    console.log(newForm)
+    console.log(newForm);
 
-    axios.post(`${server}/admin/add-product`, newForm,).then((res) => {
+    axios.post(`${server}/admin/add-product`, newForm).then((res) => {
       console.log("send");
       console.log(res);
     });
@@ -73,18 +69,25 @@ function AddFood() {
               className="w-full bg-white text-base border px-2 py-2 focus:outline-none focus:ring-1 hover: bg-transparent border-chineseBlack"
             />
           </div>
+         
           <div className="relative mt-3">
             <label htmlFor="title" className="text-base block mb-3">
               Title
             </label>
-            <input
-              type="text"
+            <select
+              id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Enter the Title"
               required
               className="w-full bg-white text-base border px-2 py-2 focus:outline-none focus:ring-1 hover: bg-transparent border-chineseBlack"
-            />
+            >
+              <option value="">-- Please Select --</option>
+              <option value="Featured">Featured</option>
+              <option value="Specials"> Specials</option>
+              <option value="Quick Bytes">Quick Bytes</option>
+              <option value="Drinks">Drinks</option>
+            </select>
           </div>
           <div className="relative mt-3">
             <label htmlFor="category" className="text-base block mb-3">
@@ -190,4 +193,3 @@ function AddFood() {
 }
 
 export default AddFood;
-
